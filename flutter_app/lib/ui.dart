@@ -14,8 +14,8 @@ class Panel extends StatelessWidget {
  final Widget child;const Panel({super.key,required this.child});
  @override Widget build(BuildContext context)=>Container(margin:const EdgeInsets.only(bottom:10),padding:const EdgeInsets.all(12),decoration:BoxDecoration(color:Colors.white,border:Border.all(color:const Color(0xffe2e8f0)),borderRadius:BorderRadius.circular(14)),child:child);
 }
-class StatusBadge extends StatelessWidget {
- final dynamic value;const StatusBadge(this.value,{super.key});
+class Badge extends StatelessWidget {
+ final dynamic value;const Badge(this.value,{super.key});
  @override Widget build(BuildContext context){final good=['active','approved','closed'].contains(value);return Container(padding:const EdgeInsets.symmetric(horizontal:8,vertical:4),decoration:BoxDecoration(color:good?const Color(0xffd9f7eb):const Color(0xffffefcf),borderRadius:BorderRadius.circular(8)),child:Text(label(value),style:TextStyle(fontSize:11,color:good?Colors.teal.shade800:Colors.brown)));}
 }
 Widget heading(String s)=>Padding(padding:const EdgeInsets.only(top:12,bottom:10),child:Text(s,style:const TextStyle(fontSize:15,fontWeight:FontWeight.bold)));
