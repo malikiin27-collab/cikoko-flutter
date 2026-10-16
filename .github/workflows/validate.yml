@@ -1,0 +1,31 @@
+name: Validate Flutter and PHP
+on: [push, workflow_dispatch]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.35.7'
+          cache: true
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - run: find website_patch -name '*.php' -print0 | xargs -0 -n1 php -l
+      - run: python3 tools/prepare_platforms.py
+      - run: flutter pub get
+        working-directory: flutter_app
+      - run: dart format lib test
+        working-directory: flutter_app
+      - run: flutter analyze
+        working-directory: flutter_app
+      - run: flutter test
+        working-directory: flutter_app
+      - run: flutter build apk --debug --dart-define=API_BASE_URL=https://cikoko.datawebs.my.id
+        working-directory: flutter_app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cikoko-debug-apk
+          path: flutter_app/build/app/outputs/flutter-apk/app-debug.apk
