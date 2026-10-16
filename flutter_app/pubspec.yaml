@@ -16,9 +16,14 @@ dependencies:
   intl: ^0.20.2
   pdf: ^3.11.3
   printing: ^5.14.2
-  # image 4.11.x requires ZLibDecoder.decodeLazy (introduced in archive 4.4.0).
-  # Explicit minimum prevents resolving incompatible archive 4.0.9.
-  archive: ">=4.4.0 <5.0.0"
+  # pdf 3.11.x requires archive <4.1.0; avoid the incompatible 4.4+ series.
+  archive: ">=4.0.9 <4.1.0"
+# A transitive image dependency may otherwise resolve to 4.11.0, which
+# calls ZLibDecoder.decodeLazy (absent from archive 4.0.9).
+# Keep the last compatible pre-4.11 image release for the current PDF stack.
+dependency_overrides:
+  image: 4.10.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
